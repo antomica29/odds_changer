@@ -1,0 +1,13 @@
+/*
+!wp-content/
+wp-content/plugins/*
+!.gitignore
+!html/
+wp-content/uploads
+.DS_Store
+
+### NOTE everything below this line will be deleted in release build
+#/wp-content/themes/wpvue/dist
+#/wp-content/plugins/wpvue-custom-blocks/dist
+#/wp-content/themes/wpvue/src/json
+#/wp-content/themes/wpvue/src/api/LocalJsonApi.js
