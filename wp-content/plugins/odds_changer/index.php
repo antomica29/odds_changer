@@ -26,7 +26,7 @@ function odds_changer_inject()
 add_action('get_footer', 'odds_changer_inject');
 
 function odds_changer_enqueue_script() {
-    wp_enqueue_style( 'odds_changer_style', get_stylesheet_uri() );
+    wp_enqueue_style( 'odds_changer_style', plugin_dir_url( __FILE__ ) . 'src/style.css');
     wp_enqueue_script( 'odds_changer_script', plugin_dir_url( __FILE__ ) . 'src/script.js' );
 }
 add_action('wp_enqueue_scripts', 'odds_changer_enqueue_script');

@@ -1,6 +1,13 @@
 <div class="odds_checker_component">
-    <span>choose odds format</span>
-    <div class="odds_format_decimal">decimal</div>
-    <div class="odds_format_fractal">fractal</div>
-    <div class="odds_format_american">american</div>
+    <div class="odds_checker_component_inner">
+        <div class="odds_format">
+            <span class="odds_format_decimal">decimal</span>
+        </div>
+        <div class="odds_format">
+            <span class="odds_format_fraction">fraction</span>
+        </div>
+        <div class="odds_format">
+            <span class="odds_format_american">american</span>
+        </div>
+    </div>
 </div>
