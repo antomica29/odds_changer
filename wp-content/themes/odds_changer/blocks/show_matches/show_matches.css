@@ -1,0 +1,51 @@
+.match_row {
+    border: solid 1px #626260;
+    margin-bottom: 20px;
+    border-radius: 3px;
+    box-shadow: #62626029 0px 4px 3px;
+    transition: all 0.3s ease;
+    position: relative;
+    background: #333;
+}
+
+.match_row:hover {
+    box-shadow: #ffd70020 0px 4px 3px;
+}
+
+.match_row__title {
+    padding: 20px;
+    font-size: 20px;
+    font-weight: bold;
+    background: #222;
+}
+
+.match_row__odds_type {
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    font-size: 12px;
+    color: #999999;
+}
+
+.match_row__odds_row_container {
+    width: 33.3%;
+    border-right: #626260 solid 1px;
+    float: left;
+    text-align: center;
+}
+
+.match_row__odds_row_container:last-child {
+    border-right: 0;
+}
+
+.match_row__odds_row_partner {
+    font-size: 20px;
+    color: #999999;
+    margin: 20px 0;
+}
+.match_row__odds_row_odds {
+    font-size: 14px;
+    font-weight: bold;
+    color: #999999;
+    margin-bottom: 20px;
+}
