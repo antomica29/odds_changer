@@ -35,12 +35,12 @@ function fetch_api_cron($schedules)
     return $schedules;
 }
 
-if (!wp_next_scheduled('fetch_api')) {
-    wp_schedule_event(time(), 'fetch_api_five_mins', 'fetch_api');
+if (!wp_next_scheduled('fetch_api_cron')) {
+    wp_schedule_event(time(), 'fetch_api_five_mins', 'fetch_api_cron');
 }
 
 // Hook into that action that'll fire every five minutes
-add_action('fetch_api_five_mins', 'fetch_api');
+add_action('fetch_api_cron', 'fetch_api');
 function fetch_api()
 {
     $url = 'http://localhost/wp-json/matches_data/v1/get_data/';
@@ -49,7 +49,7 @@ function fetch_api()
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     $response_json = curl_exec($ch);
     curl_close($ch);
-    $response = json_decode($response_json,true);
+    $response = json_decode($response_json, true);
 
     handle_response($response);
 }
@@ -60,8 +60,8 @@ add_action('rest_api_init', function () {
         'callback' => 'send_matches_data',
     ));
 });
-
-function send_matches_data(){
+function send_matches_data()
+{
 
     $JSON = '[
   {
@@ -85,7 +85,7 @@ function send_matches_data(){
               "home": "1.68",
               "draw": "5.50",
               "away": "4.05"
-            },
+            }
           }
         },
         {
@@ -389,23 +389,24 @@ function send_matches_data(){
     return $response;
 }
 
-function handle_response($response){
+function handle_response($response)
+{
 
-   for($i = 0; $i < count($response); $i++){
+    for ($i = 0; $i < count($response); $i++) {
         $args = array(
-            'post_type'		=> 'matches',
-            'meta_key'		=> 'game_id',
-            'meta_value'	=> $response[$i]['game_id']
+            'post_type' => 'matches',
+            'meta_key' => 'game_id',
+            'meta_value' => $response[$i]['game_id']
         );
 
         // query
-        $the_query = new WP_Query( $args );
+        $the_query = new WP_Query($args);
 
-        if($the_query->have_posts() == 0){
+        if ($the_query->have_posts() == 0) {
             //create new match
 
             $new_post = array(
-                'post_title' => $response[$i]['data']['teams']['Home'] . " VS " . $response[$i]['data']['teams']['Away'] ." - " . $response[$i]['game_id'],
+                'post_title' => $response[$i]['data']['teams']['Home'] . " VS " . $response[$i]['data']['teams']['Away'] . " - " . $response[$i]['game_id'],
                 'post_status' => 'publish',
                 'post_date' => date('Y-m-d H:i:s'),
                 'post_type' => 'matches',
@@ -420,38 +421,38 @@ function handle_response($response){
             update_field('commence_time', $response[$i]['data']['commence_time'], $post_id);
 
             $sites = array();
-            for($j = 0; $j < count($response[$i]['data']['sites']); $j++) {
+            for ($j = 0; $j < count($response[$i]['data']['sites']); $j++) {
 
                 $odds = array();
-                for($k = 0; $k < count($response[$i]['data']['sites'][$j]['odds']); $k++) {
+                for ($k = 0; $k < count($response[$i]['data']['sites'][$j]['odds']); $k++) {
 
                     $key = array_keys($response[$i]['data']['sites'][$j]['odds']);
 
                     $odd = array(
-                        'odds_type'     => $key[$k],
-                        'home_odds'		=> $response[$i]['data']['sites'][$j]['odds'][$key[$k]]['home'],
-                        'draw_odds'		=> $response[$i]['data']['sites'][$j]['odds'][$key[$k]]['draw'],
-                        'away_odds'	    => $response[$i]['data']['sites'][$j]['odds'][$key[$k]]['away']
+                        'odds_type' => $key[$k],
+                        'home_odds' => $response[$i]['data']['sites'][$j]['odds'][$key[$k]]['home'],
+                        'draw_odds' => $response[$i]['data']['sites'][$j]['odds'][$key[$k]]['draw'],
+                        'away_odds' => $response[$i]['data']['sites'][$j]['odds'][$key[$k]]['away']
                     );
 
                     array_push($odds, $odd);
                 }
 
-                    $site = array(
-                                'site_key'		=> $response[$i]['data']['sites'][$j]['site_key'],
-                                'site_nice'		=> $response[$i]['data']['sites'][$j]['site_nice'],
-                                'last_update'	=> $response[$i]['data']['sites'][$j]['last_update'],
-                                'odds'	=> $odds
+                $site = array(
+                    'site_key' => $response[$i]['data']['sites'][$j]['site_key'],
+                    'site_nice' => $response[$i]['data']['sites'][$j]['site_nice'],
+                    'last_update' => $response[$i]['data']['sites'][$j]['last_update'],
+                    'odds' => $odds
 
-                            );
+                );
 
-                array_push($sites,$site);
+                array_push($sites, $site);
 
             }
 
             update_field('sites', $sites, $post_id);
 
-        }else{
+        } else {
             //if match already found, check and compare last_update. If different update post accordingly
         }
     }
