@@ -85,7 +85,7 @@ function send_matches_data(){
               "home": "1.68",
               "draw": "5.50",
               "away": "4.05"
-            }
+            },
           }
         },
         {
@@ -346,8 +346,9 @@ function send_matches_data(){
           "last_update": 1540020857,
           "odds": {
             "h2h": {
-              "home": "1.95",
-              "draw": "2.25"
+              "home": "2.95",
+              "draw": "2.25",
+              "away": "1.80"
             }
           }
         },
@@ -404,7 +405,7 @@ function handle_response($response){
             //create new match
 
             $new_post = array(
-                'post_title' => $response[$i]['data']['teams']['Home'] . " VS " . $response[$i]['data']['teams']['Away'],
+                'post_title' => $response[$i]['data']['teams']['Home'] . " VS " . $response[$i]['data']['teams']['Away'] ." - " . $response[$i]['game_id'],
                 'post_status' => 'publish',
                 'post_date' => date('Y-m-d H:i:s'),
                 'post_type' => 'matches',
@@ -418,33 +419,37 @@ function handle_response($response){
             update_field('away_team', $response[$i]['data']['teams']['Away'], $post_id);
             update_field('commence_time', $response[$i]['data']['commence_time'], $post_id);
 
-           /* $sites = array();
-            $odds = array();
-            for($i = 0; $i < count($response[$i]['data']['sites']); $i++) {
+            $sites = array();
+            for($j = 0; $j < count($response[$i]['data']['sites']); $j++) {
 
-                for($i = 0; $i < count($response[$i]['data']['sites']['odds']); $i++) {
-                    $odds = array(
-                        'odds_type'     => array_keys($response[$i]['data']['sites']['odds'][$i]),
-                        'home_odds'		=> $response[$i]['data']['sites']['odds']['h2h']['home'],
-                        'draw_odds'		=> $response[$i]['data']['sites']['odds']['h2h']['draw'],
-                        'away_odds'	=> $response[$i]['data']['sites']['odds']['h2h']['away']
+                $odds = array();
+                for($k = 0; $k < count($response[$i]['data']['sites'][$j]['odds']); $k++) {
+
+                    $key = array_keys($response[$i]['data']['sites'][$j]['odds']);
+
+                    $odd = array(
+                        'odds_type'     => $key[$k],
+                        'home_odds'		=> $response[$i]['data']['sites'][$j]['odds'][$key[$k]]['home'],
+                        'draw_odds'		=> $response[$i]['data']['sites'][$j]['odds'][$key[$k]]['draw'],
+                        'away_odds'	    => $response[$i]['data']['sites'][$j]['odds'][$key[$k]]['away']
                     );
 
-                    $odds = array_push($odds);
+                    array_push($odds, $odd);
                 }
 
-                    $sites = array(
-                                'post_type'		=> $response[$i]['data']['sites']['site_key'],
-                                'meta_key'		=> $response[$i]['data']['sites']['site_nice'],
-                                'meta_value'	=> $response[$i]['data']['sites']['last_update'],
+                    $site = array(
+                                'site_key'		=> $response[$i]['data']['sites'][$j]['site_key'],
+                                'site_nice'		=> $response[$i]['data']['sites'][$j]['site_nice'],
+                                'last_update'	=> $response[$i]['data']['sites'][$j]['last_update'],
                                 'odds'	=> $odds
 
                             );
 
-                $sites = array_push($sites);
-            }*/
+                array_push($sites,$site);
 
-            //update_sub_field('sites', $sites);
+            }
+
+            update_field('sites', $sites, $post_id);
 
         }else{
             //if match already found, check and compare last_update. If different update post accordingly
