@@ -11,3 +11,4 @@
         </div>
     </div>
 </div>
+<input type="hidden" hidden-data="<?= $class ?>" id="hidden_odds_changer_plugin"/>

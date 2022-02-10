@@ -20,14 +20,15 @@ add_action('admin_menu', 'odds_changer_initPlugin', 9);
 function odds_changer_inject()
 {
     if(!is_admin()) {
+        $class = get_option('odds_changer_setting_odds_class')['odds_class'];
         require_once 'partials/odds_change_component.php';
     }
 }
 add_action('get_footer', 'odds_changer_inject');
 
 function odds_changer_enqueue_script() {
-    wp_enqueue_style( 'odds_changer_style', plugin_dir_url( __FILE__ ) . 'src/style.css');
-    wp_enqueue_script( 'odds_changer_script', plugin_dir_url( __FILE__ ) . 'src/script.js' );
+    wp_enqueue_style( 'odds_changer_style', plugin_dir_url( __FILE__ ) . 'src/odds_plugin_style.css');
+    wp_enqueue_script( 'odds_changer_script', plugin_dir_url( __FILE__ ) . 'src/odds_plugin_script.js', array(), time() );
 }
 add_action('wp_enqueue_scripts', 'odds_changer_enqueue_script');
 
