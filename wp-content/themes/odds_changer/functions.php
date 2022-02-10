@@ -4,8 +4,8 @@ function project_enqueue_script()
 {
     wp_enqueue_style('style', get_template_directory_uri() . '/dist/style.css');
     wp_enqueue_script('script', get_template_directory_uri() . '/src/script.js');
+    wp_enqueue_style( 'show_matches', get_template_directory_uri() . '/blocks/show_matches/show_matches.css');
 }
-
 add_action('wp_enqueue_scripts', 'project_enqueue_script');
 
 function register_custom_post_type()
@@ -21,9 +21,26 @@ function register_custom_post_type()
         )
     );
 }
-
 add_action('init', 'register_custom_post_type');
 
+add_action('acf/init', 'my_acf_blocks_init');
+function my_acf_blocks_init() {
+
+    // Check function exists.
+    if( function_exists('acf_register_block_type') ) {
+
+        // Register a testimonial block.
+        acf_register_block_type(array(
+            'name'              => 'show_matches',
+            'title'             => __('Show Matches'),
+            'description'       => __('Block to show matches'),
+            'render_template'   => 'blocks/show_matches/block-show_matches.php',
+            'enqueue_assets'	=> function() {
+                wp_enqueue_style( 'show_matches', get_template_directory_uri() . '/blocks/show_matches/show_matches.css');
+            }
+        ));
+    }
+}
 
 add_filter('cron_schedules', 'fetch_api_cron');
 function fetch_api_cron($schedules)
@@ -456,4 +473,9 @@ function handle_response($response)
             //if match already found, check and compare last_update. If different update post accordingly
         }
     }
+}
+
+function output_content($blockcontent)
+{
+    echo do_shortcode($blockcontent);
 }
