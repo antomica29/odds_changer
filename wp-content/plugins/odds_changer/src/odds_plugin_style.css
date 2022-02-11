@@ -1,0 +1,41 @@
+.odds_checker_component {
+    width: 100vw;
+    top: 0;
+    position: fixed;
+    height: 30px;
+    background: rgb(255 215 0 / 10%);
+    border-bottom: 1px solid gold;
+}
+
+.odds_checker_component_inner {
+    position: absolute;
+    font-size: 12px;
+    color: gold;
+    top: 0px;
+    right: 50px;
+    width: auto;
+    -webkit-transition-duration: 0.3s;
+    -moz-transition-duration: 0.3s;
+    -o-transition-duration: 0.3s;
+    transition-duration: 0.3s;
+}
+
+.odds_format {
+    display: inline-block;
+    margin-top: 7px;
+}
+
+.odds_format span{
+    cursor: pointer;
+}
+
+.odds_format::after {
+    content: "/";
+    margin: 10px;
+    color: gold;
+}
+
+.odds_format:last-child::after {
+    content: "";
+    padding: 0;
+}
