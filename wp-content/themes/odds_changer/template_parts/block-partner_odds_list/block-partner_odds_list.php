@@ -1,9 +1,6 @@
 <?php
 $sites = get_field('sites', $post->ID);
 
-//creating more dummy data
-$sites = array_merge($sites, $sites);
-
 $odds_type = $sites[0]['odds'][0]['odds_type'];
 ?>
 
