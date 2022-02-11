@@ -1,11 +1,12 @@
 let $cookie = getCookie("odds_format");
+let loaded = false;
 
 if ($cookie == "") {
     setCookie("decimal");
 }
 
 function setCookie(name) {
-    document.cookie = "odds_format=" + name;
+    document.cookie = "odds_format=" + name + ";path=/";
 }
 
 function getCookie(name) {
@@ -40,7 +41,6 @@ function changeDecimalToFraction(collection) {
 
         $data_converted = $ans + "/1";
         collection[$i].innerHTML = $data_converted;
-        console.log($data_converted);
     }
 }
 
@@ -60,20 +60,17 @@ function changeDecimalToAmerican(collection) {
 
         $data_converted = $am_ans.toFixed(0);
         collection[$i].innerHTML = $data_converted;
-        console.log($data_converted);
     }
 }
 
 function changeFractionToDecimal(collection) {
     for (let $i = 0; $i < collection.length; $i++) {
         $data = collection[$i].innerHTML.toString();
-        console.log($data);
         $dataarr = $data.split("/")
         $ans = ((Number($dataarr[0]) / Number($dataarr[1])) + 1);
 
         $data_converted = $ans.toFixed(2);
         collection[$i].innerHTML = $data_converted;
-        console.log($data_converted);
     }
 }
 
@@ -93,7 +90,6 @@ function changeFractionToAmerican(collection) {
 
         $data_converted = $am_ans;
         collection[$i].innerHTML = $data_converted.toFixed(0);
-        console.log($data_converted);
     }
 }
 
@@ -110,7 +106,6 @@ function changeAmericanDecimal(collection) {
 
         $data_converted = Math.abs($ans).toFixed(2);
         collection[$i].innerHTML = $data_converted;
-        console.log($data_converted);
     }
 }
 
@@ -129,27 +124,23 @@ function changeAmericanFraction(collection) {
 
         $data_converted = $ans + "/1";
         collection[$i].innerHTML = $data_converted;
-        console.log($data_converted);
     }
 }
 
 document.addEventListener('DOMContentLoaded', (event) => {
 
-    $odds_class = document.getElementById("hidden_odds_changer_plugin").getAttribute("hidden_data");
+    let odds_class = document.getElementById("hidden_odds_changer_plugin").getAttribute("hidden-data");
 
     var classname = document.getElementsByClassName("odds_format");
-    let collection = document.getElementsByClassName($odds_class);
+    let collection = document.getElementsByClassName(odds_class);
     let current_format = getCookie("odds_format");
 
     var changeFormat_click = function () {
         children = this.children;
         el_classname = children[0].className;
         new_format = el_classname.replace('odds_format_', '');
-        collection = document.getElementsByClassName("odds");
+        collection = document.getElementsByClassName(odds_class);
         current_format = getCookie("odds_format");
-
-        console.log(new_format);
-        console.log(current_format);
 
         changeFormat(new_format, current_format, collection);
         setCookie(new_format);
@@ -159,10 +150,9 @@ document.addEventListener('DOMContentLoaded', (event) => {
         classname[i].addEventListener('click', changeFormat_click, false);
     }
 
-    $loaded = false;
-    if (!$loaded) {
+    if (!loaded) {
         changeFormat(current_format, "decimal", collection);
-        $loaded = true;
+        loaded = true;
     }
 });
 

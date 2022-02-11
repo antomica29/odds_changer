@@ -2,10 +2,12 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
     var sort_odds = document.getElementById("sort_odds");
 
-    sort_odds.addEventListener("change", function () {
+    if(sort_odds) {
+        sort_odds.addEventListener("change", function () {
 
-        sortArray(sort_odds.value);
-    });
+            sortArray(sort_odds.value);
+        });
+    }
 });
 
 function sortArray(value) {
