@@ -4,7 +4,11 @@ function project_enqueue_script()
 {
     wp_enqueue_style('style', get_template_directory_uri() . '/dist/style.css');
     wp_enqueue_script('script', get_template_directory_uri() . '/src/script.js');
+
+    //these should be handled via webpack
     wp_enqueue_style( 'show_matches', get_template_directory_uri() . '/blocks/show_matches/show_matches.css');
+    wp_enqueue_style( 'partner_odds_list_style', get_template_directory_uri() . '/template_parts/block-partner_odds_list/block-partner_odds_list.css');
+    wp_enqueue_script( 'partner_odds_list_script', get_template_directory_uri() . '/template_parts/block-partner_odds_list/block-partner_odds_list.js');
 }
 add_action('wp_enqueue_scripts', 'project_enqueue_script');
 
@@ -17,7 +21,7 @@ function register_custom_post_type()
                 'singular_name' => 'Match',
             ),
             'public' => true,
-            'has_archive' => true,
+            'has_archive' => false,
         )
     );
 }
