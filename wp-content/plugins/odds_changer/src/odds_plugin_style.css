@@ -1,3 +1,7 @@
+body{
+    padding-top:30px
+}
+
 .odds_checker_component {
     width: 100vw;
     top: 0;
