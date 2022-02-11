@@ -17,36 +17,41 @@ function odds_changer_initPlugin()
 }
 add_action('admin_menu', 'odds_changer_initPlugin', 9);
 
+//adding plugin to front end if not in dashboard and hooking to get_footer
 function odds_changer_inject()
 {
     if(!is_admin()) {
+        //fetching class option field from wp_options
         $class = get_option('odds_changer_setting_odds_class')['odds_class'];
+        //outputting html to front-end
         require_once 'partials/odds_change_component.php';
     }
 }
 add_action('get_footer', 'odds_changer_inject');
 
+//enqueue scriptd and styles
 function odds_changer_enqueue_script() {
     wp_enqueue_style( 'odds_changer_style', plugin_dir_url( __FILE__ ) . 'src/odds_plugin_style.css');
     wp_enqueue_script( 'odds_changer_script', plugin_dir_url( __FILE__ ) . 'src/odds_plugin_script.js', array(), time() );
 }
 add_action('wp_enqueue_scripts', 'odds_changer_enqueue_script');
 
-//displaying form
+//displaying form in settings page
 function displaySettingsPage()
 {
     require_once 'partials/settings.php';
 }
 
-//registering sections and text fields
+//registering sections and text fields to sections
 function register_settings()
 {
     register_setting('odds_changer_options', 'odds_changer_setting_odds_class');
-    add_settings_section('odds_changer_settings', 'Odds Changer Settings', 'odds_changer_section_text_callback', 'odds_changer');
 
+    //adding data/fields section
+    add_settings_section('odds_changer_settings', 'Odds Changer Settings', 'odds_changer_section_text_callback', 'odds_changer');
+    //adding fields to section created
     add_settings_field('odds_changer_setting_odds_class', 'Odds Class', 'odds_changer_setting_odds_class', 'odds_changer', 'odds_changer_settings');
 }
-
 add_action('admin_init', 'register_settings');
 
 function odds_changer_section_text_callback()
