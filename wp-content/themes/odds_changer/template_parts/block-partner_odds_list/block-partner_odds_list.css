@@ -1,0 +1,32 @@
+.match_row_holder{
+    position: relative;
+}
+
+.match_row_holder .match_row__title{
+    padding: 10px;
+}
+
+.match_row_holder .match_row__odds_row_odds{
+    margin: 10px 0;
+}
+.match_row_holder .match_row__odds_row_team{
+    margin-bottom: 10px;
+}
+
+#sort_odds,
+#sort_odds:focus{
+    width: 200px;
+    background: #272727;
+    color: white;
+    border: 0;
+    border-bottom: solid 1px white;
+    margin-bottom: 20px;
+    font-size: 20px;
+    padding: 10px 0;
+}
+
+#sort_odds option {
+    background: #333;
+    font-size: 15px;
+    color: black;
+}
