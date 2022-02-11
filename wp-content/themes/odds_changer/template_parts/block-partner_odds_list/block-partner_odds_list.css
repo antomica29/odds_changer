@@ -1,7 +1,3 @@
-.match_row_holder{
-    position: relative;
-}
-
 .match_row_holder .match_row__title{
     padding: 10px;
 }
@@ -28,5 +24,14 @@
 #sort_odds option {
     background: #333;
     font-size: 15px;
-    color: black;
+    color: #bbbbbb;
+}
+
+@media only screen and (max-width: 550px) {
+    .match_row_holder .match_row__odds_row_partner,
+    .match_row_holder .match_row__odds_row_odds,
+    .match_row_holder .match_row__odds_row_team {
+        width: 50%;
+        float: left;
+    }
 }

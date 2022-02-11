@@ -21,12 +21,12 @@
 
 a .match_row__title,
 a:visited .match_row__title,
-a:focus .match_row__title{
+a:focus .match_row__title {
     text-decoration: none;
     color: #999999;
 }
 
-a:hover > .match_row__title{
+a:hover > .match_row__title {
     color: #a78d00;
 }
 
@@ -54,6 +54,7 @@ a:hover > .match_row__title{
     color: #999999;
     margin: 20px 0;
 }
+
 .match_row__odds_row_odds {
     font-size: 24px;
     font-weight: bold;
@@ -66,4 +67,42 @@ a:hover > .match_row__title{
     margin-bottom: 20px;
     font-size: 14px;
     font-weight: 100;
+}
+
+@media only screen and (max-width: 550px) {
+    .match_row__odds_type {
+        right: 10px;
+        top: 10px;
+    }
+
+    .match_row__title {
+        padding: 10px;
+        font-size: 15px;
+    }
+
+    .match_row__odds_row_container {
+        width: 100%;
+        border-right: 0;
+        border-bottom: solid 1px #626260;
+        float: left;
+        text-align: center;
+        display: block;
+    }
+
+    .match_row__odds_row_container:last-child {
+        border-bottom: 0;
+    }
+
+    .match_row__odds_row_partner,
+    .match_row__odds_row_odds,
+    .match_row__odds_row_team {
+        margin: 10px 0;
+        width: 33.3%;
+        float: left;
+    }
+
+    .match_row__odds_row_partner,
+    .match_row__odds_row_team {
+        margin: 15px 0;
+    }
 }

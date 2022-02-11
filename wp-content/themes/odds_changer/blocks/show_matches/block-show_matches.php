@@ -1,5 +1,4 @@
 <?php
-
 $post_id = get_the_ID();
 
 $show_all = get_field('show_all');
@@ -7,6 +6,7 @@ $choose_matches = get_field('choose_matches');
 
 $posts = array();
 
+//if checkbox to show all, get all else iterate loop and get post by id
 if ($show_all) {
     $args = array(
         'post_type' => 'matches',
@@ -20,6 +20,7 @@ if ($show_all) {
     }
 }
 
+//iterating all posts and displaying them
 for ($i = 0; $i < count($posts); $i++) {
 
     $title = get_field('home_team', $posts[$i]->ID) . " VS " . get_field('away_team', $posts[$i]->ID);
@@ -32,9 +33,13 @@ for ($i = 0; $i < count($posts); $i++) {
     $best_away_name = "";
     $best_away = 0;
 
+    $odds_type = "";
+
     for ($j = 0; $j < count($sites); $j++) {
 
-        //iterate also odds_type, but gonna hard code it
+        //iterate also odds_type, but hard coded it here
+        $odds_type = $sites[$j]['odds'][0]['odds_type'];
+
         if($sites[$j]['odds'][0]['home_odds'] > $best_home){
             $best_home_name = $sites[$j]['site_nice'];
             $best_home = $sites[$j]['odds'][0]['home_odds'];
@@ -54,7 +59,6 @@ for ($i = 0; $i < count($posts); $i++) {
     $home_partner_nice = $best_home_name;
     $draw_partner_nice = $best_draw_name;
     $away_partner_nice = $best_away_name;
-    $odds_type = $sites[0]['odds'][0]['odds_type'];
     $odds_home = $best_home;
     $odds_draw = $best_draw;
     $odds_away = $best_away;

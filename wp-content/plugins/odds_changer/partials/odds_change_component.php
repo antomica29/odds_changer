@@ -11,4 +11,5 @@
         </div>
     </div>
 </div>
+<!--hidden field that javascript will read as the class to target -->
 <input type="hidden" hidden-data="<?= $class ?>" id="hidden_odds_changer_plugin"/>

@@ -1,10 +1,12 @@
 let $cookie = getCookie("odds_format");
 let loaded = false;
 
+//setting up cookie default if not found
 if ($cookie == "") {
     setCookie("decimal");
 }
 
+//setting up cookie name and path to avoid multiple cookies of same name
 function setCookie(name) {
     document.cookie = "odds_format=" + name + ";path=/";
 }
@@ -15,6 +17,11 @@ function getCookie(name) {
     if (value != "") return parts.pop().split(';').shift();
 }
 
+/**function to change text format
+ * @param new_format = the clicked format, the new one to be expected
+ * @param current_format = the current format that is displayed and will be changed
+ * @param collection = the DOM elements to change
+ **/
 function changeFormat(new_format, current_format, collection) {
 
     if (current_format == "decimal" && new_format == "fraction") {
@@ -129,27 +136,32 @@ function changeAmericanFraction(collection) {
 
 document.addEventListener('DOMContentLoaded', (event) => {
 
+    //getting elements needed
     let odds_class = document.getElementById("hidden_odds_changer_plugin").getAttribute("hidden-data");
-
     var classname = document.getElementsByClassName("odds_format");
     let collection = document.getElementsByClassName(odds_class);
     let current_format = getCookie("odds_format");
 
+    //called when plugin button are clicked
     var changeFormat_click = function () {
+        //getting clicked button info
         children = this.children;
         el_classname = children[0].className;
         new_format = el_classname.replace('odds_format_', '');
         collection = document.getElementsByClassName(odds_class);
         current_format = getCookie("odds_format");
 
+        //calling change format event and changing cookie value
         changeFormat(new_format, current_format, collection);
         setCookie(new_format);
     };
 
+    //adding on click event of plugin buttons calling changeFormat_click function
     for (var i = 0; i < classname.length; i++) {
         classname[i].addEventListener('click', changeFormat_click, false);
     }
 
+    //if page was loaded, call changeFormat function to change format on page load to cookie setting
     if (!loaded) {
         changeFormat(current_format, "decimal", collection);
         loaded = true;
