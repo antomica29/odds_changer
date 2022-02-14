@@ -1,7 +1,6 @@
 /*
 !wp-content/
-wp-content/plugins/*
-!wp-content/plugins/odds_changer
+!wp-content/plugins/
 !.gitignore
 !html/
 wp-content/uploads
